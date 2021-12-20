@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, SafeAreaView } from 'react-native'
-import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText } from './styles';
+import Search from '../../components/Search';
+import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer } from './styles';
 
 const Home: React.FC = () => (
   <Container>
@@ -13,6 +14,13 @@ const Home: React.FC = () => (
         <HeaderNameText>Ivan Locke</HeaderNameText>
       </HeaderWelcome>
     </Header>
+    <SearchContainer>
+      <Search
+        textChanged={(movieQuery) => {
+          console.log(movieQuery)
+        }}
+      />
+    </SearchContainer>
   </Container>
 )
 
