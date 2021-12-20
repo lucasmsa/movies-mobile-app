@@ -1,4 +1,4 @@
-import { RFValue } from 'react-native-responsive-fontsize'
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { Colors } from '../../types/Colors'
 
@@ -21,6 +21,12 @@ export const HeaderWelcomeText = styled.Text`
 export const SearchContainer = styled.View`
   margin-top: ${RFValue(24)}px;
   margin-bottom: ${RFValue(36)}px;
+`
+
+export const MoviesContainer = styled.View`
+  height: ${RFPercentage(70)}px;
+  width: ${RFPercentage(40)}px;
+  // background: ${Colors.MediumBlue};
 `
 
 export const HeaderNameText = styled.Text`

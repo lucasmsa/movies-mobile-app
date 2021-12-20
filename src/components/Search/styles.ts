@@ -14,7 +14,8 @@ export const Container = styled.View`
 `
 
 export const Input = styled.TextInput.attrs({
-    placeholderTextColor: Colors.LightBlue
+    placeholderTextColor: Colors.LightBlue,
+    selectionColor: Colors.LighterBlue
   })`
   font-size: ${RFValue(12)}px;
   margin-left: ${RFPercentage(2)}px;
