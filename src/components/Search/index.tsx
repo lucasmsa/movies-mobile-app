@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { View, Text, SafeAreaView } from 'react-native'
 import { Search, CloseSquare, ArrowRight} from 'react-native-iconly'
+import { sub } from 'react-native-reanimated';
 import { Colors } from '../../types/Colors';
 import { ArrowRightIcon, BlankSquare, Container, IconContainer, IconsContainer, Input } from './styles';
 
 interface SearchInputProps {
-  textChanged: (text: string) => void;
+  submit: (text: string) => void;
 }
 
-const SearchInput = ({ textChanged }: SearchInputProps) => {
+const SearchInput = ({ submit }: SearchInputProps) => {
   const [searchValue, setSearchValue] = useState('');
   return (
     <Container>
@@ -36,7 +37,7 @@ const SearchInput = ({ textChanged }: SearchInputProps) => {
           />
         </IconContainer>
         <IconContainer
-          onPress={() => {}}
+          onPress={() => submit(searchValue)}
         >
           <ArrowRightIcon 
             size={'medium'} 

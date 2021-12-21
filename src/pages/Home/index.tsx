@@ -7,13 +7,14 @@ import { MOVIE_DB_API_KEY } from '../../constants/apiKey';
 import { api } from '../../service/api';
 import { Colors } from '../../types/Colors';
 import { IMovie } from '../../types/IMovie';
-import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer, MoviesContainer, StyledFlatList, LoadingContainer, BottomLoadingContainer } from './styles';
+import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer, MoviesContainer, StyledFlatList, LoadingContainer, BottomLoadingContainer, NotFoundContainer, NotFoundText } from './styles';
 
 
 
 const Home: React.FC = () => {
   const [moviesQuery, setMoviesQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [lastPage, setLastPage] = useState<boolean>(false);
   const [movies, setMovies] = useState({
     films: [] as IMovie[],
     loading: false,
@@ -30,14 +31,14 @@ const Home: React.FC = () => {
       }
     });
 
-    await fetchMovies()
+    await fetchMovies('', movies.page);
   }, [])
 
-  const fetchMovies = async (search?: boolean, searchValue?: string) => { 
+  const fetchMovies = async (searchValue?: string, page?: number) => { 
     let response: any;
-
-    if (search!) { 
-      const searchUrl = `search/movie?api_key=${MOVIE_DB_API_KEY}&language=en-US&query=${searchValue!}&page=${movies.page}&include_adult=false`
+    
+    if (searchValue && searchValue.length) { 
+      const searchUrl = `search/movie?api_key=${MOVIE_DB_API_KEY}&language=en-US&query=${searchValue!}&page=${page}&include_adult=false`
       response = await api.get(searchUrl)
     } else {
       response = await api.get('movie/now_playing', {
@@ -47,6 +48,8 @@ const Home: React.FC = () => {
         }
       })
     }
+
+    if (response.data.total_pages <= movies.page) setLastPage(true)
 
     const filteredMovies = filterMovies(response.data.results)
 
@@ -92,19 +95,21 @@ const Home: React.FC = () => {
       </Header>
       <SearchContainer>
         <Search
-          textChanged={async (searchValue) => {
-            setMoviesQuery(searchValue)
+          submit={async (text: string) => {
+            setMoviesQuery(text)
+            setLastPage(false)
             setMovies((oldState) => { 
               return {
+                ...oldState,
                 films: [],
                 loading: true,
                 page: 1,
               }
             })
-            if (searchValue.length) {
-              await fetchMovies(true, searchValue)
+            if (text.length) {
+              await fetchMovies(text, 1)
             } else {
-              await fetchMovies(false)
+              await loadMovies()
             }
           }}
         />
@@ -122,11 +127,19 @@ const Home: React.FC = () => {
               flexDirection: 'column',
             }}
             ListFooterComponent={() => (
-              <BottomLoadingContainer>
-                <ActivityIndicator size="small" color={Colors.LightBlue} /> 
-              </BottomLoadingContainer>
+              movies.films.length ? (
+                (lastPage ? <></> : <BottomLoadingContainer>
+                                    <ActivityIndicator size="small" color={Colors.LightBlue} /> 
+                                  </BottomLoadingContainer>)
+              ) : (
+                <NotFoundContainer>
+                  <NotFoundText>Ooops... No movies with that name were found</NotFoundText>
+                </NotFoundContainer>
+              )
             )}
-            onEndReached={async () => { await fetchMovies(!!moviesQuery.length, moviesQuery) }}
+            onEndReached={async () => {
+              await fetchMovies(moviesQuery, movies.page)
+            }}
             numColumns={3}
             onEndReachedThreshold={0.1}
             keyExtractor={(movie: IMovie) => movie.id}

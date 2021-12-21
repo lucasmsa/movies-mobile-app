@@ -52,6 +52,19 @@ export const HeaderNameText = styled.Text`
   color: ${Colors.LighterBlue}
 `
 
+export const NotFoundText = styled.Text`
+  font-size: ${RFValue(20)}px;
+  text-align: center;
+  color: ${Colors.LighterBlue}
+`
+
+export const NotFoundContainer = styled.Text`
+  margin-top: ${RFPercentage(6)}px;
+  width: ${RFPercentage(42)}px;
+  align-items: center;
+  justify-content: center;
+`
+
 export const Header = styled.View`
   display: flex;
   flex-direction: row;
