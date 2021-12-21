@@ -5,22 +5,27 @@ import { Colors } from '../../types/Colors'
 export const Container = styled.View`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-direction: column;
-  // background: lightgreen;
-  width: ${RFPercentage(16)}px;
-  height: ${RFPercentage(24)}px;
+  width: ${RFPercentage(14)}px;
+  height: ${RFPercentage(20)}px;
+  margin-bottom: ${RFPercentage(2.5)}px;
   border-radius: ${RFPercentage(1.5)}px;
 `
 
 export const MovieName = styled.Text`
   margin-top: ${RFPercentage(1)}px;
   margin-bottom: ${RFPercentage(1)}px;
+  text-align: center;
   font-size: ${RFValue(10)}px;
   color: ${Colors.LighterBlue}
 `
 
 export const MovieCover = styled.Image`
-  width: ${RFPercentage(12)}px;
-  height: ${RFPercentage(18)}px;
+  width: ${RFPercentage(8)}px;
+  height: ${RFPercentage(12)}px;
   border-radius: ${RFPercentage(1.5)}px;
+`
+
+export const StarsContainer = styled.View`
 `

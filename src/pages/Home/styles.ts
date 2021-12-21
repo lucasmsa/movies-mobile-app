@@ -25,8 +25,9 @@ export const SearchContainer = styled.View`
 
 export const MoviesContainer = styled.View`
   height: ${RFPercentage(70)}px;
-  width: ${RFPercentage(40)}px;
-  // background: ${Colors.MediumBlue};
+  width: ${RFPercentage(42)}px;
+  flex-direction: row;
+  flex-wrap: wrap;
 `
 
 export const HeaderNameText = styled.Text`
