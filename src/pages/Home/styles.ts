@@ -15,6 +15,20 @@ export const ProfilePicture = styled.Image`
   margin-right: ${RFValue(12)}px;
 `
 
+export const LoadingContainer = styled.View`
+  height: ${RFPercentage(70)}px;
+  width: ${RFPercentage(42)}px;
+  align-items: center;
+  justify-content: center;
+`
+
+export const BottomLoadingContainer = styled.View`
+  margin-top: ${RFPercentage(1)}px;
+  width: ${RFPercentage(42)}px;
+  align-items: center;
+  justify-content: center;
+`
+
 export const HeaderWelcomeText = styled.Text`
   font-size: ${RFValue(14)}px;
   color: ${Colors.LightBlue}
@@ -49,6 +63,6 @@ export const HeaderWelcome = styled.View`
   flex-direction: column;
 `
 
-const StyledFlatList = styled(FlatList as new () => FlatList<IMovie>)`
+export const StyledFlatList = styled(FlatList as new () => FlatList<IMovie>)`
   background-color: #f7f7f7;
 `

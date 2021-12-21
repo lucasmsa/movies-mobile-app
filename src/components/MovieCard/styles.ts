@@ -13,7 +13,10 @@ export const Container = styled.View`
   border-radius: ${RFPercentage(1.5)}px;
 `
 
-export const MovieName = styled.Text`
+export const MovieName = styled.Text.attrs({
+  numberOfLines: 2,
+  ellipsizeMode: 'tail'
+})`
   margin-top: ${RFPercentage(1)}px;
   margin-bottom: ${RFPercentage(1)}px;
   text-align: center;
