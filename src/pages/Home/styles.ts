@@ -1,6 +1,8 @@
+import { FlatList } from 'react-native'
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { Colors } from '../../types/Colors'
+import { IMovie } from '../../types/IMovie'
 
 export const Container = styled.View`
   display: flex;
@@ -28,6 +30,7 @@ export const MoviesContainer = styled.View`
   width: ${RFPercentage(42)}px;
   flex-direction: row;
   flex-wrap: wrap;
+  overflow-y: scroll;
 `
 
 export const HeaderNameText = styled.Text`
@@ -44,4 +47,8 @@ export const Header = styled.View`
 export const HeaderWelcome = styled.View`
   display: flex;
   flex-direction: column;
+`
+
+const StyledFlatList = styled(FlatList as new () => FlatList<IMovie>)`
+  background-color: #f7f7f7;
 `

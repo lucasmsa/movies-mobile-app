@@ -1,18 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, FlatList } from 'react-native'
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import MovieCard from '../../components/MovieCard';
 import Search from '../../components/Search';
 import { MOVIE_DB_API_KEY } from '../../constants/apiKey'; 
 import { imageUrl } from '../../constants/mediaUrl';
 import { api } from '../../service/api';
-import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer, MoviesContainer } from './styles';
+import { IMovie } from '../../types/IMovie';
+import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer, MoviesContainer, StyledFlatList } from './styles';
 
-interface IMovie {
-  id: string;
-  name: string;
-  cover: string;
-  rating: number;
-}
+
 
 const Home: React.FC = () => {
   const [moviesQuery, setMoviesQuery] = useState('');
@@ -60,11 +57,33 @@ const Home: React.FC = () => {
           }}
         />
       </SearchContainer>
-      <MoviesContainer>
-        {movies.map((movie) => {
-          const { name, cover, rating } = movie;
+      <FlatList
+        data={movies}
+        contentContainerStyle={{
+          width: RFPercentage(42),
+          paddingBottom: RFPercentage(20),
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}
+        keyExtractor={(movie: IMovie) => movie.id}
+        renderItem={({ item }) => {
+          const { id, name, cover, rating } = item;
           return (
             <MovieCard 
+              key={id}
+              name={name} 
+              cover={cover} 
+              rating={rating}
+            />
+          )
+        }}
+      />
+      {/* <MoviesContainer>
+        {movies.map((movie) => {
+          const { id, name, cover, rating } = movie;
+          return (
+            <MovieCard 
+              key={id}
               name={name} 
               cover={cover} 
               rating={rating}
@@ -72,7 +91,7 @@ const Home: React.FC = () => {
           )
          })
         }
-      </MoviesContainer>
+      </MoviesContainer> */}
     </Container>
   )
 }

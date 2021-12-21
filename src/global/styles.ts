@@ -8,4 +8,5 @@ export const ApplicationContainer = styled.View`
   background: ${Colors.DarkBlue};
   padding-top: ${RFPercentage(8)}px;
   padding-left: ${RFPercentage(4)}px;
+  padding-bottom: ${RFPercentage(10)}px;
 `
