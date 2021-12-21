@@ -18,7 +18,7 @@ const MovieCard = ({ name, cover, rating }: MovieCardProps) => {
   return (
   <Container>
     <MovieCover
-      source={{uri: imageUrl + cover}}
+      source={cover ? {uri: imageUrl + cover} : require('../../../assets/images/movie_cover_not_found.png')}
     />
     <MovieName>{ name }</MovieName> 
     <StarsContainer>

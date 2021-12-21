@@ -33,13 +33,20 @@ const Home: React.FC = () => {
     await fetchMovies()
   }, [])
 
-  const fetchMovies = async () => { 
-    const response = await api.get('movie/now_playing', {
-      params: {
-        api_key: MOVIE_DB_API_KEY,
-        page: movies.page
-      }
-    })
+  const fetchMovies = async (search?: boolean, searchValue?: string) => { 
+    let response: any;
+
+    if (search!) { 
+      const searchUrl = `search/movie?api_key=${MOVIE_DB_API_KEY}&language=en-US&query=${searchValue!}&page=${movies.page}&include_adult=false`
+      response = await api.get(searchUrl)
+    } else {
+      response = await api.get('movie/now_playing', {
+        params: {
+          api_key: MOVIE_DB_API_KEY,
+          page: movies.page
+        }
+      })
+    }
 
     const filteredMovies = filterMovies(response.data.results)
 
@@ -56,14 +63,6 @@ const Home: React.FC = () => {
   const filterMovies = (results: any[]) => {
     const moviesList = [] as IMovie[]
     results.forEach((movie: any, idx: any) => {
-      console.log('Meu index', idx)
-      console.log({
-        id: movie.id,
-        name: movie.title,
-        cover: movie.poster_path,
-        rating: movie.vote_average,
-      })
-      
       moviesList.push({
         id: movie.id,
         name: movie.title,
@@ -93,8 +92,20 @@ const Home: React.FC = () => {
       </Header>
       <SearchContainer>
         <Search
-          textChanged={(movieQuery) => {
-            console.log(movieQuery)
+          textChanged={async (searchValue) => {
+            setMoviesQuery(searchValue)
+            setMovies((oldState) => { 
+              return {
+                films: [],
+                loading: true,
+                page: 1,
+              }
+            })
+            if (searchValue.length) {
+              await fetchMovies(true, searchValue)
+            } else {
+              await fetchMovies(false)
+            }
           }}
         />
       </SearchContainer>
@@ -103,6 +114,7 @@ const Home: React.FC = () => {
             <ActivityIndicator size="large" color={Colors.LightBlue} /> 
           </LoadingContainer>
         : <FlatList
+            removeClippedSubviews
             data={movies.films}
             contentContainerStyle={{
               width: RFPercentage(42),
@@ -114,7 +126,7 @@ const Home: React.FC = () => {
                 <ActivityIndicator size="small" color={Colors.LightBlue} /> 
               </BottomLoadingContainer>
             )}
-            onEndReached={async () => { await fetchMovies() }}
+            onEndReached={async () => { await fetchMovies(!!moviesQuery.length, moviesQuery) }}
             numColumns={3}
             onEndReachedThreshold={0.1}
             keyExtractor={(movie: IMovie) => movie.id}
@@ -130,20 +142,6 @@ const Home: React.FC = () => {
           )
         }}
       />}
-      {/* <MoviesContainer>
-        {movies.map((movie) => {
-          const { id, name, cover, rating } = movie;
-          return (
-            <MovieCard 
-              key={id}
-              name={name} 
-              cover={cover} 
-              rating={rating}
-            />
-          )
-         })
-        }
-      </MoviesContainer> */}
     </Container>
   )
 }
