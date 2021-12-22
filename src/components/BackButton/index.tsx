@@ -13,7 +13,7 @@ const BackButton = ({ clicked }: BackButtonProps) => {
       onPress={clicked}
     >
       <ArrowLeftSquare
-        size={'xlarge'}
+        size={40}
         set={'bulk'}
         primaryColor={Colors.LighterBlue} 
         secondaryColor={Colors.MediumBlue}

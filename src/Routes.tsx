@@ -13,6 +13,7 @@ const Routes: React.FC = () => {
       screenOptions={{
         headerShown: false,
         cardStyle: {
+          flex: 1,
           backgroundColor: Colors.DarkBlue,
         }
       }}

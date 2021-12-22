@@ -8,17 +8,104 @@ export const Container = styled.View`
 `
 
 export const Header = styled.View`
-  display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
+  justify-content: space-between;
+  height: ${RFPercentage(8)}px;
 `
 
-export const HeaderWelcome = styled.View`
-  display: flex;
+
+export const HeaderText = styled.Text`
+  font-size: ${RFValue(14)}px;
+  color: ${Colors.LighterBlue}
+`
+
+export const TrailerOrPosterContainer = styled.View`
+  margin-top: ${RFPercentage(2.5)}px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+export const Poster = styled.Image`
+  width: ${RFPercentage(25)}px;
+  height: ${RFPercentage(35)}px;
+  align-self: center;
+  border-radius: ${RFPercentage(4)}px;
+`
+
+export const MovieInfoContainer = styled.View`
+  margin-top: ${RFPercentage(3)}px;
   flex-direction: column;
 `
 
-export const HeaderWelcomeText = styled.Text`
+export const MovieName = styled.Text.attrs({
+  numberOfLines: 2,
+  ellipsizeMode: 'tail'
+})`
+  text-align: center;
+  font-size: ${RFValue(16)}px;
+  max-width: ${RFPercentage(32)}px;
+  color: ${Colors.LighterBlue}
+`
+
+export const MovieDetailsContainer = styled.View`
+  margin-top: ${RFPercentage(2)}px;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+export const ReleaseYearText = styled.Text`
+  font-size: ${RFValue(14)}px;
+  color: ${Colors.LighterBlue}
+`
+
+export const GenreAndRuntimeText = styled.Text`
   font-size: ${RFValue(14)}px;
   color: ${Colors.LightBlue}
+`
+
+export const RatingContainer = styled.View`
+  margin-top: ${RFPercentage(3)}px;
+  width ${RFPercentage(40)}px;
+  flex-direction: row;
+  align-self: center;
+  align-items: center;
+`
+
+export const RatingText = styled.Text`
+  font-size: ${RFValue(14)}px;
+  color: ${Colors.LightBlue}
+  margin-left: ${RFPercentage(2)}px;
+  letter-spacing: ${RFPercentage(0.3)}px;
+`
+
+export const HighlightedRatingText = styled.Text`
+  color: ${Colors.Yellow};
+  font-weight: bold;
+  margin-right: ${RFPercentage(2)}px;
+  font-size: ${RFValue(16)}px;
+`
+
+export const DescriptionContainer = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  persistentScrollbar: true
+})`
+  margin-top: ${RFPercentage(4)}px;
+  width: ${RFValue(272)}px;
+  height: ${RFValue(50)}px;
+  align-self: center;
+`
+
+export const DescriptionText = styled.Text.attrs({
+  ellipsizeMode: 'tail',
+  })`
+  text-align: center;
+  width: ${RFValue(256)}px;
+  font-size: ${RFValue(14)}px;
+  color: ${Colors.LightBlue};
 `

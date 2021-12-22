@@ -1,15 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react'
 import { View, Text, SafeAreaView, FlatList, ActivityIndicator } from 'react-native'
+import { InfoSquare } from 'react-native-iconly';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import BackButton from '../../components/BackButton';
 import MovieCard from '../../components/MovieCard';
 import Search from '../../components/Search';
+import Stars from '../../components/Stars';
 import { MOVIE_DB_API_KEY } from '../../constants/apiKey'; 
 import { api } from '../../service/api';
 import { Colors } from '../../types/Colors';
 import { IMovie } from '../../types/IMovie';
-import { Container, Header, HeaderWelcomeText, HeaderWelcome } from './styles';
+import { minutesToHoursAndMinutes } from '../../utils/minutesToHoursAndMinutes';
+import { Container, DescriptionContainer, DescriptionText, GenreAndRuntimeText, Header, HeaderText, HighlightedRatingText, MovieDetailsContainer, MovieInfoContainer, MovieName, Poster, RatingContainer, RatingText, ReleaseYearText, TrailerOrPosterContainer } from './styles';
 
 interface DetailsProps {
   route: {
@@ -23,6 +26,7 @@ const Details = ({ route }: DetailsProps) => {
   const id = route.params.id;
   const navigation = useNavigation()
   const [movie, setMovie] = useState<string>('');
+  const [videoLink, setVideoLink] = useState<string>('');
 
   const loadMovies = useCallback(async () => {
     // setMovies((oldState) => {
@@ -90,12 +94,37 @@ const Details = ({ route }: DetailsProps) => {
       <Header>
         <BackButton
           clicked={() => navigation.goBack()}
+        />  
+        <HeaderText>Detail</HeaderText> 
+        <InfoSquare 
+          size={40} 
+          set="light" 
+          primaryColor={Colors.MediumBlue}
+          secondaryColor={Colors.DarkBlue}
         />
-        <HeaderWelcome>
-          <HeaderWelcomeText>Welcome, Ivan Locke Little pussy { id }</HeaderWelcomeText>
-        </HeaderWelcome>
       </Header>
-    
+      <TrailerOrPosterContainer>
+        {videoLink ? <></> :
+          (<Poster
+            source={{ url: 'https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg' }}
+            />)
+        }
+        <MovieInfoContainer>
+          <MovieName>Spider-Man: No Way Home</MovieName>
+          <MovieDetailsContainer>
+            <ReleaseYearText>2021</ReleaseYearText>
+            <GenreAndRuntimeText>Action</GenreAndRuntimeText>
+            <GenreAndRuntimeText>{minutesToHoursAndMinutes(148)}</GenreAndRuntimeText>
+          </MovieDetailsContainer>
+          <RatingContainer>
+            <Stars rating={8.5} />
+            <RatingText><HighlightedRatingText>{8.5}</HighlightedRatingText>/10</RatingText>
+          </RatingContainer>
+        </MovieInfoContainer>
+      </TrailerOrPosterContainer>
+      <DescriptionContainer>
+        <DescriptionText>Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.</DescriptionText>
+      </DescriptionContainer>
     </Container>
   )
 }

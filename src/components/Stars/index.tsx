@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Star } from 'react-native-iconly';
+import { Colors } from '../../types/Colors';
 import { roundToHalf } from '../../utils/roundToHalf';
 import { Container } from './styles';
 
@@ -9,31 +10,22 @@ interface StarProps {
 
 const Stars = ({ rating }: StarProps) => {
   const ratingStars = roundToHalf(rating / 2, 0.5)
-  console.log('rating ', ratingStars)
 
-  const fullStar= <Star size={14} set='bold' color={'#f5c544'}/>
-  const emptyStar= <Star size={14} color={'#f5c544'}/>
-  const halfStar = <Star size={14} set='bulk' color={'#f5c544'} />
+  const fullStar = (key: number) => <Star key={key} size={14} set='bold' color={Colors.Yellow}/>
+  const emptyStar = (key: number) => <Star key={key} size={14} color={Colors.Yellow}/>
+  const halfStar  = (key: number) => <Star key={key} size={14} set='bulk' color={Colors.Yellow} />
   
   return (
     <Container>
       {[0, 1, 2, 3, 4].map((index) => { 
         if (ratingStars >= index + 1) {
-          return fullStar
+          return fullStar(index)
         } else if (ratingStars === index + 0.5) {
-          return halfStar
+          return halfStar(index)
         } else {
-          return emptyStar
+          return emptyStar(index)
         }
       })}
-      {/* <Stars
-          default={roundToHalf(rating / 2, 0.5)}
-          count={5}
-          half={true}
-          fullStar={<Star size={14} set='bold' color={'#f5c544'}/>}
-          emptyStar={<Star size={14} color={'#f5c544'}/>}
-          halfStar={<Star size={14} set='bulk' color={'#f5c544'} />}
-      /> */}
     </Container>
   )
 }
