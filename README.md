@@ -1,6 +1,6 @@
-# Ília React-native challenge
+# Ília React-native challenge 🍿
 
-- Developing an application using React-native Typescript ⌨️
+- Developing an application using React-native with Typescript ⌨️
 - Project description stated [here](https://github.com/aisdigital/ilia-react-native-challenge)
 
 **_Clone the repository in order to follow the steps inside the `How to run` sections_**
