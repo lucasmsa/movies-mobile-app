@@ -9,7 +9,6 @@ import { Colors } from '../../types/Colors';
 import { IMovie } from '../../types/IMovie';
 import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer, MoviesContainer, StyledFlatList, LoadingContainer, BottomLoadingContainer, NotFoundContainer, NotFoundText } from './styles';
 import { useNavigation } from '@react-navigation/native';
-import { set } from 'react-native-reanimated';
 
 const Home = () => {
   const navigation = useNavigation();

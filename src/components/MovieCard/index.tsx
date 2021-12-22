@@ -1,11 +1,6 @@
 import React from 'react'
-import { View, Text, SafeAreaView } from 'react-native'
-import { Search } from 'react-native-iconly'
-import { Colors } from '../../types/Colors';
 import { Container, MovieCover, MovieName, StarsContainer } from './styles';
-import { Star } from 'react-native-iconly'
 import { imageUrl } from '../../constants/mediaUrl';
-import { roundToHalf } from '../../utils/roundToHalf';
 import Stars from '../Stars';
 
 interface MovieCardProps {

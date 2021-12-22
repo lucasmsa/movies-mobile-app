@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Star } from 'react-native-iconly';
 import { Colors } from '../../types/Colors';
 import { roundToHalf } from '../../utils/roundToHalf';

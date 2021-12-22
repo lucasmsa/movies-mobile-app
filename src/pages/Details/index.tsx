@@ -1,18 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react'
-import { View, Text, SafeAreaView, FlatList, ActivityIndicator } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 import { InfoSquare, Play } from 'react-native-iconly';
-import { RFPercentage } from 'react-native-responsive-fontsize';
-import { WebView } from 'react-native-webview';
 import BackButton from '../../components/BackButton';
-import MovieCard from '../../components/MovieCard';
-import Search from '../../components/Search';
 import Stars from '../../components/Stars';
 import { MOVIE_DB_API_KEY } from '../../constants/apiKey'; 
 import { imageUrl, videoUrls } from '../../constants/mediaUrl';
 import { api } from '../../service/api';
 import { Colors } from '../../types/Colors';
-import { IMovie } from '../../types/IMovie';
 import { getReleaseYear } from '../../utils/getReleaseYear';
 import { minutesToHoursAndMinutes } from '../../utils/minutesToHoursAndMinutes';
 import { Container, DescriptionContainer, DescriptionText, GenreAndRuntimeText, Header, HeaderText, HighlightedRatingText, MovieDetailsContainer, MovieInfoContainer, MovieName, PlayContainer, Poster, RatingContainer, RatingText, ReleaseYearText, TrailerOrPosterContainer } from './styles';
@@ -62,13 +57,6 @@ const Details = ({ route }: DetailsProps) => {
   }, [])
 
   const filterMovies = (result: any) => {
-    console.log(result.title)
-    console.log(result.overview)
-    console.log(result.vote_average)
-    console.log(result.genres)
-    console.log(result.release_date)
-    console.log(result.poster_path)
-    console.log(result.runtime)
     const movieDetailsObject = {
       name: result.title,
       description: result.overview,
@@ -83,8 +71,6 @@ const Details = ({ route }: DetailsProps) => {
     if (result.videos.results.length && result.videos.results[0].site in videoUrls) {
       movieDetailsObject.trailer = videoUrls[result.videos.results[0].site] + result.videos.results[0].key
     }
-
-    console.log(movieDetailsObject)
 
     return movieDetailsObject
   }
