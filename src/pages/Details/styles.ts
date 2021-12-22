@@ -22,21 +22,38 @@ export const HeaderText = styled.Text`
 `
 
 export const TrailerOrPosterContainer = styled.View`
-  margin-top: ${RFPercentage(2.5)}px;
+  margin-top: ${RFPercentage(10)}px;
+  margin-bottom: ${RFPercentage(8)}px;
+  height: ${RFPercentage(35)}px;
+  flex: 1;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${RFPercentage(4)}px;
+`
+
+export const Poster = styled.ImageBackground.attrs({
+  borderRadius: RFPercentage(2),
+})`
+  width: ${RFPercentage(25)}px;
+  height: ${RFPercentage(35)}px;
+  align-self: center;
   align-items: center;
   justify-content: center;
 `
 
-export const Poster = styled.Image`
-  width: ${RFPercentage(25)}px;
-  height: ${RFPercentage(35)}px;
+export const PlayContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.4,
+})`
+  flex: 1;
   align-self: center;
-  border-radius: ${RFPercentage(4)}px;
+  align-items: center;
+  justify-content: center;
 `
 
 export const MovieInfoContainer = styled.View`
   margin-top: ${RFPercentage(3)}px;
+  align-self: center;
   flex-direction: column;
 `
 

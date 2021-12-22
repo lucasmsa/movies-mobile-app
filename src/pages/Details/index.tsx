@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react'
 import { View, Text, SafeAreaView, FlatList, ActivityIndicator } from 'react-native'
-import { InfoSquare } from 'react-native-iconly';
+import { InfoSquare, Play } from 'react-native-iconly';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { WebView } from 'react-native-webview';
 import BackButton from '../../components/BackButton';
 import MovieCard from '../../components/MovieCard';
 import Search from '../../components/Search';
@@ -14,7 +15,7 @@ import { Colors } from '../../types/Colors';
 import { IMovie } from '../../types/IMovie';
 import { getReleaseYear } from '../../utils/getReleaseYear';
 import { minutesToHoursAndMinutes } from '../../utils/minutesToHoursAndMinutes';
-import { Container, DescriptionContainer, DescriptionText, GenreAndRuntimeText, Header, HeaderText, HighlightedRatingText, MovieDetailsContainer, MovieInfoContainer, MovieName, Poster, RatingContainer, RatingText, ReleaseYearText, TrailerOrPosterContainer } from './styles';
+import { Container, DescriptionContainer, DescriptionText, GenreAndRuntimeText, Header, HeaderText, HighlightedRatingText, MovieDetailsContainer, MovieInfoContainer, MovieName, PlayContainer, Poster, RatingContainer, RatingText, ReleaseYearText, TrailerOrPosterContainer } from './styles';
 
 interface DetailsProps {
   route: {
@@ -48,7 +49,6 @@ const Details = ({ route }: DetailsProps) => {
     rating: 0,
     trailer: '',
   });
-  const [videoLink, setVideoLink] = useState<string>('');
 
   const loadMovieDetails = useCallback(async () => {
     let response: any;
@@ -59,18 +59,23 @@ const Details = ({ route }: DetailsProps) => {
     const filteredMovieDetails = filterMovies(response.data)
 
     setMovie(filteredMovieDetails)
-
-    console.log('sou o filmoso,', movie)
   }, [])
 
   const filterMovies = (result: any) => {
+    console.log(result.title)
+    console.log(result.overview)
+    console.log(result.vote_average)
+    console.log(result.genres)
+    console.log(result.release_date)
+    console.log(result.poster_path)
+    console.log(result.runtime)
     const movieDetailsObject = {
       name: result.title,
       description: result.overview,
       rating: result.vote_average,
-      genre: result.genres[0].name,
+      genre: result.genres.length ? result.genres[0].name : 'No genre found',
       releaseYear: getReleaseYear(result.release_date),
-      poster: imageUrl + result.poster_path,
+      poster: result.poster_path ? imageUrl + result.poster_path : '',
       duration: minutesToHoursAndMinutes(result.runtime),
       trailer: ''
     } as IMovieDetails
@@ -78,7 +83,9 @@ const Details = ({ route }: DetailsProps) => {
     if (result.videos.results.length && result.videos.results[0].site in videoUrls) {
       movieDetailsObject.trailer = videoUrls[result.videos.results[0].site] + result.videos.results[0].key
     }
-    console.log('sou o objecto,', movieDetailsObject)
+
+    console.log(movieDetailsObject)
+
     return movieDetailsObject
   }
 
@@ -93,7 +100,7 @@ const Details = ({ route }: DetailsProps) => {
         <BackButton
           clicked={() => navigation.goBack()}
         />  
-        <HeaderText>Detail</HeaderText> 
+        <HeaderText>Details</HeaderText> 
         <InfoSquare 
           size={40} 
           set="light" 
@@ -101,12 +108,21 @@ const Details = ({ route }: DetailsProps) => {
           secondaryColor={Colors.DarkBlue}
         />
       </Header>
-        {movie.name ? (
+        {movie.name.length ? (
         <><TrailerOrPosterContainer>
-          {videoLink ? <></> :
-            (<Poster
-              source={movie.poster ? { uri: imageUrl + movie.poster } : require('../../../assets/images/movie_cover_not_found.png')} />)}
-        </TrailerOrPosterContainer><MovieInfoContainer>
+          <Poster
+            source={movie.poster.length ? { uri: imageUrl + movie.poster } : require('../../../assets/images/movie_cover_not_found.png')}
+          >
+            {
+              movie.trailer.length ? (
+                <PlayContainer onPress={() => navigation.navigate('VideoPlayer' as never, { link: movie.trailer } as never)}>
+                  <Play size={72} set="bulk" primaryColor={Colors.LighterBlue} secondaryColor={Colors.DarkBlue} stroke='bold' />
+                </PlayContainer>
+              ) : <></>
+            }
+          </Poster> 
+        </TrailerOrPosterContainer>
+          <MovieInfoContainer>
             <MovieName>{movie.name}</MovieName>
             <MovieDetailsContainer>
               <ReleaseYearText>{movie.releaseYear}</ReleaseYearText>
