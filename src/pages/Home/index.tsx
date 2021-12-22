@@ -119,6 +119,7 @@ const Home = () => {
           </LoadingContainer>
         : <FlatList
             removeClippedSubviews
+            maxToRenderPerBatch={20}
             data={movies.films}
             contentContainerStyle={{
               width: RFPercentage(42),
