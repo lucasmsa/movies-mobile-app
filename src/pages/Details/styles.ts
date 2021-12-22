@@ -54,6 +54,7 @@ export const MovieDetailsContainer = styled.View`
   margin-top: ${RFPercentage(2)}px;
   flex-direction: row;
   justify-content: space-between;
+  width: ${RFPercentage(28)}px;
 `
 
 export const ReleaseYearText = styled.Text`

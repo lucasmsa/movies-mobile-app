@@ -8,9 +8,11 @@ import MovieCard from '../../components/MovieCard';
 import Search from '../../components/Search';
 import Stars from '../../components/Stars';
 import { MOVIE_DB_API_KEY } from '../../constants/apiKey'; 
+import { imageUrl, videoUrls } from '../../constants/mediaUrl';
 import { api } from '../../service/api';
 import { Colors } from '../../types/Colors';
 import { IMovie } from '../../types/IMovie';
+import { getReleaseYear } from '../../utils/getReleaseYear';
 import { minutesToHoursAndMinutes } from '../../utils/minutesToHoursAndMinutes';
 import { Container, DescriptionContainer, DescriptionText, GenreAndRuntimeText, Header, HeaderText, HighlightedRatingText, MovieDetailsContainer, MovieInfoContainer, MovieName, Poster, RatingContainer, RatingText, ReleaseYearText, TrailerOrPosterContainer } from './styles';
 
@@ -22,71 +24,67 @@ interface DetailsProps {
   }
 }
 
+interface IMovieDetails {
+  name: string;
+  genre: string;
+  poster: string;
+  description: string;
+  rating: number;
+  duration: string;
+  releaseYear: number;
+  trailer: string;
+}
+
 const Details = ({ route }: DetailsProps) => {
   const id = route.params.id;
   const navigation = useNavigation()
-  const [movie, setMovie] = useState<string>('');
+  const [movie, setMovie] = useState<IMovieDetails>({
+    name: '',
+    genre: '',
+    poster: '',
+    description: '',
+    releaseYear: 0,
+    duration: '',
+    rating: 0,
+    trailer: '',
+  });
   const [videoLink, setVideoLink] = useState<string>('');
 
-  const loadMovies = useCallback(async () => {
-    // setMovies((oldState) => {
-    //   return {
-    //     ...oldState,
-    //     movies: [...oldState.films],
-    //     loading: true,
-    //     page: oldState.page
-    //   }
-    // });
+  const loadMovieDetails = useCallback(async () => {
+    let response: any;
+    
+    const movieDetailshUrl = `movie/${id}?api_key=${MOVIE_DB_API_KEY}&language=en-US&append_to_response=videos`
+    response = await api.get(movieDetailshUrl)
 
-    // await fetchMovies('', movies.page);
+    const filteredMovieDetails = filterMovies(response.data)
+
+    setMovie(filteredMovieDetails)
+
+    console.log('sou o filmoso,', movie)
   }, [])
 
-  const fetchMovies = async (searchValue?: string, page?: number) => { 
-    // let response: any;
-    
-    // if (searchValue && searchValue.length) { 
-    //   const searchUrl = `search/movie?api_key=${MOVIE_DB_API_KEY}&language=en-US&query=${searchValue!}&page=${page}&include_adult=false`
-    //   response = await api.get(searchUrl)
-    // } else {
-    //   response = await api.get('movie/now_playing', {
-    //     params: {
-    //       api_key: MOVIE_DB_API_KEY,
-    //       page: movies.page
-    //     }
-    //   })
-    // }
+  const filterMovies = (result: any) => {
+    const movieDetailsObject = {
+      name: result.title,
+      description: result.overview,
+      rating: result.vote_average,
+      genre: result.genres[0].name,
+      releaseYear: getReleaseYear(result.release_date),
+      poster: imageUrl + result.poster_path,
+      duration: minutesToHoursAndMinutes(result.runtime),
+      trailer: ''
+    } as IMovieDetails
 
-    // if (response.data.total_pages <= movies.page) setLastPage(true)
-
-    // const filteredMovies = filterMovies(response.data.results)
-
-    // setMovies((oldState) => {
-    //   return {
-    //     ...oldState,
-    //     films: [...oldState.films, ...filteredMovies],
-    //     loading: false,
-    //     page: oldState.page + 1,
-    //   }
-    // });
+    if (result.videos.results.length && result.videos.results[0].site in videoUrls) {
+      movieDetailsObject.trailer = videoUrls[result.videos.results[0].site] + result.videos.results[0].key
+    }
+    console.log('sou o objecto,', movieDetailsObject)
+    return movieDetailsObject
   }
 
-  const filterMovies = (results: any[]) => {
-    // const moviesList = [] as IMovie[]
-    // results.forEach((movie: any, idx: any) => {
-    //   moviesList.push({
-    //     id: movie.id,
-    //     name: movie.title,
-    //     cover: movie.poster_path,
-    //     rating: movie.vote_average,
-    //   })
-    // })
-    
-    // return moviesList
-  }
-
-  // useEffect(() => {
-  //   loadMovies()
-  // }, [loadMovies])
+  useEffect(() => {
+    loadMovieDetails()
+  }, [loadMovieDetails])
 
 
   return (
@@ -103,28 +101,28 @@ const Details = ({ route }: DetailsProps) => {
           secondaryColor={Colors.DarkBlue}
         />
       </Header>
-      <TrailerOrPosterContainer>
+      {movie.name ? (<><TrailerOrPosterContainer>
         {videoLink ? <></> :
           (<Poster
-            source={{ url: 'https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg' }}
+            source={movie.poster ? {uri: imageUrl + movie.poster} : require('../../../assets/images/movie_cover_not_found.png')}
             />)
         }
         <MovieInfoContainer>
-          <MovieName>Spider-Man: No Way Home</MovieName>
+          <MovieName>{ movie.name }</MovieName>
           <MovieDetailsContainer>
-            <ReleaseYearText>2021</ReleaseYearText>
-            <GenreAndRuntimeText>Action</GenreAndRuntimeText>
-            <GenreAndRuntimeText>{minutesToHoursAndMinutes(148)}</GenreAndRuntimeText>
+            <ReleaseYearText>{ movie.releaseYear }</ReleaseYearText>
+            <GenreAndRuntimeText>{ movie.genre }</GenreAndRuntimeText>
+            <GenreAndRuntimeText>{ movie.duration }</GenreAndRuntimeText>
           </MovieDetailsContainer>
           <RatingContainer>
-            <Stars rating={8.5} />
-            <RatingText><HighlightedRatingText>{8.5}</HighlightedRatingText>/10</RatingText>
+            <Stars rating={ movie.rating } />
+            <RatingText><HighlightedRatingText>{movie.rating}</HighlightedRatingText>/10</RatingText>
           </RatingContainer>
         </MovieInfoContainer>
       </TrailerOrPosterContainer>
       <DescriptionContainer>
-        <DescriptionText>Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.</DescriptionText>
-      </DescriptionContainer>
+        <DescriptionText>{ movie.description }</DescriptionText>
+      </DescriptionContainer></>) : <ActivityIndicator size="large" color={Colors.MediumBlue} />}
     </Container>
   )
 }

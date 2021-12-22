@@ -1,3 +1,3 @@
-export const getReleaseYear = (releaseDate: string): string => { 
-  return releaseDate.split('-')[0]
+export const getReleaseYear = (releaseDate: string): number => { 
+  return Number(releaseDate.split('-')[0])
 }
