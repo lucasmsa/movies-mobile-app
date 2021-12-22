@@ -2,7 +2,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { Colors } from '../../types/Colors'
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
   display: flex;
   align-items: center;
   justify-content: space-between;

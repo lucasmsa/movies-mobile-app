@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { View, Text, SafeAreaView, FlatList, ActivityIndicator } from 'react-native'
+import { FlatList, ActivityIndicator } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import MovieCard from '../../components/MovieCard';
 import Search from '../../components/Search';
@@ -8,13 +8,12 @@ import { api } from '../../service/api';
 import { Colors } from '../../types/Colors';
 import { IMovie } from '../../types/IMovie';
 import { Container, Header, HeaderWelcomeText, HeaderWelcome, ProfilePicture, HeaderNameText, SearchContainer, MoviesContainer, StyledFlatList, LoadingContainer, BottomLoadingContainer, NotFoundContainer, NotFoundText } from './styles';
-
-
+import { useNavigation } from '@react-navigation/native';
 
 const Home: React.FC = () => {
-  const [moviesQuery, setMoviesQuery] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const navigation = useNavigation();
   const [lastPage, setLastPage] = useState<boolean>(false);
+  const [moviesQuery, setMoviesQuery] = useState<string>('');
   const [movies, setMovies] = useState({
     films: [] as IMovie[],
     loading: false,
@@ -151,6 +150,7 @@ const Home: React.FC = () => {
                   name={name} 
                   cover={cover} 
                   rating={rating}
+                  clicked={() => navigation.navigate('Details' as never, { id } as never)}
             />
           )
         }}

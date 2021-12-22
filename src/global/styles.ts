@@ -3,7 +3,6 @@ import styled from 'styled-components/native'
 import { Colors } from '../types/Colors'
 
 export const ApplicationContainer = styled.View`
-  display: flex;
   flex: 1;
   background: ${Colors.DarkBlue};
   padding-top: ${RFPercentage(8)}px;

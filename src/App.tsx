@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react'
-import { View, Text, SafeAreaView, StatusBar } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import Routes from './Routes'
 import { Colors } from './types/Colors';
@@ -8,13 +8,13 @@ import { ApplicationContainer } from './global/styles';
 
 const App: React.FC = () => (
   <NavigationContainer>
-    <StatusBar 
-      barStyle='light-content' 
-      backgroundColor={Colors.DarkBlue}
-    />
-    <ApplicationContainer>
-      <Routes />
-    </ApplicationContainer>
+      <StatusBar 
+        barStyle='light-content' 
+        backgroundColor={Colors.LightBlue}
+      />
+      <ApplicationContainer>
+        <Routes />
+      </ApplicationContainer>
   </NavigationContainer>
 )
 
