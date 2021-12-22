@@ -101,28 +101,25 @@ const Details = ({ route }: DetailsProps) => {
           secondaryColor={Colors.DarkBlue}
         />
       </Header>
-      {movie.name ? (<><TrailerOrPosterContainer>
-        {videoLink ? <></> :
-          (<Poster
-            source={movie.poster ? {uri: imageUrl + movie.poster} : require('../../../assets/images/movie_cover_not_found.png')}
-            />)
-        }
-        <MovieInfoContainer>
-          <MovieName>{ movie.name }</MovieName>
-          <MovieDetailsContainer>
-            <ReleaseYearText>{ movie.releaseYear }</ReleaseYearText>
-            <GenreAndRuntimeText>{ movie.genre }</GenreAndRuntimeText>
-            <GenreAndRuntimeText>{ movie.duration }</GenreAndRuntimeText>
-          </MovieDetailsContainer>
-          <RatingContainer>
-            <Stars rating={ movie.rating } />
-            <RatingText><HighlightedRatingText>{movie.rating}</HighlightedRatingText>/10</RatingText>
-          </RatingContainer>
-        </MovieInfoContainer>
-      </TrailerOrPosterContainer>
-      <DescriptionContainer>
-        <DescriptionText>{ movie.description }</DescriptionText>
-      </DescriptionContainer></>) : <ActivityIndicator size="large" color={Colors.MediumBlue} />}
+        {movie.name ? (
+        <><TrailerOrPosterContainer>
+          {videoLink ? <></> :
+            (<Poster
+              source={movie.poster ? { uri: imageUrl + movie.poster } : require('../../../assets/images/movie_cover_not_found.png')} />)}
+        </TrailerOrPosterContainer><MovieInfoContainer>
+            <MovieName>{movie.name}</MovieName>
+            <MovieDetailsContainer>
+              <ReleaseYearText>{movie.releaseYear}</ReleaseYearText>
+              <GenreAndRuntimeText>{movie.genre}</GenreAndRuntimeText>
+              <GenreAndRuntimeText>{movie.duration}</GenreAndRuntimeText>
+            </MovieDetailsContainer>
+            <RatingContainer>
+              <Stars rating={movie.rating} />
+              <RatingText><HighlightedRatingText>{movie.rating}</HighlightedRatingText>/10</RatingText>
+            </RatingContainer>
+          </MovieInfoContainer><DescriptionContainer>
+            <DescriptionText>{movie.description}</DescriptionText>
+          </DescriptionContainer></>) : <ActivityIndicator size="large" color={Colors.MediumBlue} />}
     </Container>
   )
 }

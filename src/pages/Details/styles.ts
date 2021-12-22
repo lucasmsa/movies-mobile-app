@@ -47,7 +47,8 @@ export const MovieName = styled.Text.attrs({
   text-align: center;
   font-size: ${RFValue(16)}px;
   max-width: ${RFPercentage(32)}px;
-  color: ${Colors.LighterBlue}
+  color: ${Colors.LighterBlue};
+  align-self: center;
 `
 
 export const MovieDetailsContainer = styled.View`
@@ -55,6 +56,7 @@ export const MovieDetailsContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   width: ${RFPercentage(28)}px;
+  align-self: center;
 `
 
 export const ReleaseYearText = styled.Text`
